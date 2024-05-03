@@ -6,12 +6,19 @@ var logger = require('morgan');
 // express session
 var session = require('express-session');
 
+var bodyParser = require('body-parser');
+var flash = require('req-flash');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 // Memanggil kelasRouter
 var kelasRouter = require('./routes/kelas');
 // Memanggil sessionRouter
 var sessionRouter = require('./routes/session');
+// Definisi lokasi untuk auth
+const loginRoutes = require('./routes/login');
+const registerRoutes = require('./routes/register');
+
 
 var app = express();
 
@@ -31,6 +38,11 @@ app.use(session({
   saveUninitialized: true,
   cookie: { maxAge: 60 * 60 * 1000 }
 }));
+app.use(flash());
+
+// Setting folder views
+app.set('views',path.join(__dirname,'./views'));
+app.set('view engine', 'ejs');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -38,6 +50,10 @@ app.use('/users', usersRouter);
 app.use('/kelas', kelasRouter); 
 // Memanggil sessionRouter
 app.use('/session', sessionRouter);
+// Gunakan routes yang telah didefinisikan untuk auth
+app.use('/login', loginRoutes);
+app.use('/register', registerRoutes);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

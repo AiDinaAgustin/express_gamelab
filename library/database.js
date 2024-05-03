@@ -17,4 +17,10 @@ connection.connect(function(error){
     }
 });
 
-module.exports = connection;
+module.exports = {
+    multipleStatements  : true,
+    host                : 'localhost',
+    user                : 'root',
+    password            : '',
+    database            : 'express_mysql'
+  };
