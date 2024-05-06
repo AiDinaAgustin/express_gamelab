@@ -45,6 +45,9 @@ const products ={
   router.get('/judul', (req, res) => {
     res.json({
       data: products.digital_books
+    });
+    res.send({
+        data: products.digital_books
     })
   })
 
